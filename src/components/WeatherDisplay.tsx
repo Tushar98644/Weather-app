@@ -267,7 +267,7 @@ const AuthRequiredState = styled.div`
 
 const WeatherDisplay: React.FC = () => {
     const { currentWeather, forecast, isLoading, temperatureUnit } = useWeather();
-    const { user } = useAuth();
+    const user = useAuth()?.user;
 
     if (!user) {
         return (

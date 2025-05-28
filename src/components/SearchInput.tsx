@@ -122,7 +122,7 @@ const AuthRequiredMessage = styled.div`
 const SearchInput: React.FC = () => {
     const [city, setCity] = useState('');
     const { searchWeather, isLoading, temperatureUnit, toggleTemperatureUnit } = useWeather();
-    const { user } = useAuth();
+    const user = useAuth()?.user;
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();

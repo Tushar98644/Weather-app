@@ -3,7 +3,7 @@ import React, { createContext, useContext, useReducer, useEffect, useCallback } 
 import type { WeatherState, WeatherContextType, WeatherData, ForecastDay } from '../types/weather';
 import { WeatherService } from '../services/weatherService';
 import { LocalStorageService } from '../utils/localStorage';
-import { useAuth } from './AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 type WeatherAction =
     | { type: 'SET_LOADING'; payload: boolean }
@@ -57,7 +57,7 @@ const WeatherContext = createContext<WeatherContextType | undefined>(undefined);
 
 export function WeatherProvider({ children }: { children: React.ReactNode }) {
     const [state, dispatch] = useReducer(weatherReducer, initialState);
-    const { user, profile } = useAuth();
+    const user = useAuth()?.user;
 
     const searchWeather = useCallback(async (city: string) => {
         // Require authentication for weather search
@@ -86,14 +86,14 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
             dispatch({ type: 'SET_LAST_SEARCHED_CITY', payload: city });
 
             // Save to user's profile if available
-            if (profile) {
-                LocalStorageService.setLastSearchedCity(city);
-            }
+            // if (profile) {
+            //     LocalStorageService.setLastSearchedCity(city);
+            // }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
             dispatch({ type: 'SET_ERROR', payload: errorMessage });
         }
-    }, [user, profile]);
+    }, [user]);
     const toggleTemperatureUnit = useCallback(() => {
         dispatch({ type: 'TOGGLE_TEMPERATURE_UNIT' });
     }, []);
@@ -123,14 +123,14 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
     }, [state.currentWeather, state.lastSearchedCity, searchWeather, user]);
 
     // Load last searched city on mount (only for authenticated users)
-    useEffect(() => {
-        if (user && profile && !state.currentWeather) {
-            const lastCity = profile.favorite_cities?.[0] || LocalStorageService.getLastSearchedCity();
-            if (lastCity) {
-                searchWeather(lastCity);
-            }
-        }
-    }, [user, profile, state.currentWeather, searchWeather]);
+    // useEffect(() => {
+    //     if (user && profile && !state.currentWeather) {
+    //         const lastCity = profile.favorite_cities?.[0] || LocalStorageService.getLastSearchedCity();
+    //         if (lastCity) {
+    //             searchWeather(lastCity);
+    //         }
+    //     }
+    // }, [user, profile, state.currentWeather, searchWeather]);
 
     const contextValue: WeatherContextType = {
         ...state,

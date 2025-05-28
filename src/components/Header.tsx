@@ -74,12 +74,13 @@ const AuthButton = styled.button`
 `;
 
 const Header: React.FC = () => {
-    const { user, signOut } = useAuth();
+    const user = useAuth()?.user;
+    const { logout } = useAuth() || {};
     const [showAuthModal, setShowAuthModal] = useState(false);
 
     const handleAuthAction = () => {
         if (user) {
-            signOut();
+            if (logout) logout();
         } else {
             setShowAuthModal(true);
         }
