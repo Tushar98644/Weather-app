@@ -85,10 +85,6 @@ export function WeatherProvider({ children }: { children: React.ReactNode }) {
             dispatch({ type: 'SET_WEATHER', payload: { weather, forecast } });
             dispatch({ type: 'SET_LAST_SEARCHED_CITY', payload: city });
 
-            // Save to user's profile if available
-            // if (profile) {
-            //     LocalStorageService.setLastSearchedCity(city);
-            // }
         } catch (error) {
             const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';
             dispatch({ type: 'SET_ERROR', payload: errorMessage });

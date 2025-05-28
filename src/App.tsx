@@ -7,7 +7,6 @@ import Header from './components/Header';
 import SearchInput from './components/SearchInput';
 import WeatherDisplay from './components/WeatherDisplay';
 import ErrorDisplay from './components/ErrorDisplay';
-// import FavoriteCities from './components/FavoriteCities';
 import './App.css';
 
 const queryClient = new QueryClient({
@@ -85,7 +84,6 @@ function App() {
               <MainContent>
                 <SearchInput />
                 <ErrorDisplay />
-                {/* <FavoriteCities /> */}
                 <WeatherDisplay />
               </MainContent>
             </AppContainer>
